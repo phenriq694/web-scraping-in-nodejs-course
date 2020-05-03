@@ -2,6 +2,8 @@ const puppeteer = require("puppeteer");
 const cheerio = require("cheerio");
 const mongoose = require("mongoose");
 
+const Listing = require("./model/Listing");
+
 async function connectToMongoDB() {
   await mongoose.connect("mongodb://localhost:27017/craigslistWebScraper", {
     useNewUrlParser: true, 
@@ -47,6 +49,10 @@ async function scrapteJobDescriptions(listings, page) {
     listings[i].compensation = compensation;
 
     console.log(listings[i].compensation)
+
+    const listingModel = new Listing(listings[i]);
+    await listingModel.save();
+    
     await sleep(1000) // 1 second sleep
   }
 }
