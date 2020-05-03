@@ -1,16 +1,13 @@
 const puppeteer = require("puppeteer");
 const cheerio = require("cheerio");
 
-async function main() {
-  const browser = await puppeteer.launch({ headless: false }); 
-  const page = await browser.newPage();
-
+async function scrapeListings(page) {
   await page.goto("https://sfbay.craigslist.org/d/software-qa-dba-etc/search/sof");
   
   const html = await page.content();
   const $ = cheerio.load(html);
   
-  const results = $(".result-info").map((index, element) => {
+  const listings = $(".result-info").map((index, element) => {
     const titleElement = $(element).find(".result-title");
     const timeElement = $(element).find(".result-date");
     const hoodElement = $(element).find(".result-hood");
@@ -23,7 +20,24 @@ async function main() {
     return { title, url, datePosted, neignborhood };
   }).get();
 
-  console.log(results);
+  return listings;
+}
+
+async function scrapteJobDescriptions(listings, page) {
+  for(var i = 0; i < listings.length; i++) {
+    await page.goto(listings[i].url);
+
+    const html = await page.content();
+  }
+}
+
+async function main() {
+  const browser = await puppeteer.launch({ headless: false }); 
+  const page = await browser.newPage();
+
+  const listings = await scrapeListings(page);
+  const listingsWithJobDescriptions = await scrapteJobDescriptions(listings, page);
+  console.log(listings);
 }
 
 main()
