@@ -10,11 +10,17 @@ async function main() {
   const html = await page.content();
   const $ = cheerio.load(html);
   
-  const results = $(".result-title").map((index, element) => {
-    const title = $(element).text();
-    const url = $(element).attr("href");
+  const results = $(".result-info").map((index, element) => {
+    const titleElement = $(element).find(".result-title");
+    const timeElement = $(element).find(".result-date");
+    const neignborhoodElement = $(element).find(".result-hood");
 
-    return { title, url };
+    const title = $(titleElement).text();
+    const url = $(titleElement).attr("href");
+    const datePosted = new Date($(timeElement).attr("datetime"));
+    const neignborhood = $(neignborhoodElement).text();
+
+    return { title, url, datePosted, neignborhood };
   }).get();
 
   console.log(results);
