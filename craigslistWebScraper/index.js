@@ -13,12 +13,12 @@ async function main() {
   const results = $(".result-info").map((index, element) => {
     const titleElement = $(element).find(".result-title");
     const timeElement = $(element).find(".result-date");
-    const neignborhoodElement = $(element).find(".result-hood");
+    const hoodElement = $(element).find(".result-hood");
 
     const title = $(titleElement).text();
     const url = $(titleElement).attr("href");
     const datePosted = new Date($(timeElement).attr("datetime"));
-    const neignborhood = $(neignborhoodElement).text();
+    const neignborhood = $(hoodElement).text().trim().replace("(", "").replace(")", "");
 
     return { title, url, datePosted, neignborhood };
   }).get();
