@@ -1,5 +1,15 @@
 const puppeteer = require("puppeteer");
 const cheerio = require("cheerio");
+const mongoose = require("mongoose");
+
+async function connectToMongoDB() {
+  await mongoose.connect("mongodb://localhost:27017/craigslistWebScraper", {
+    useNewUrlParser: true, 
+    useFindAndModify: true, 
+  });
+  
+  console.log('Connected to MongoDB');
+}
 
 async function scrapeListings(page) {
   await page.goto("https://sfbay.craigslist.org/d/software-qa-dba-etc/search/sof");
@@ -46,6 +56,8 @@ async function sleep(milliseconds) {
 }
 
 async function main() {
+  await connectToMongoDB();
+
   const browser = await puppeteer.launch({ headless: false }); 
   const page = await browser.newPage();
 
