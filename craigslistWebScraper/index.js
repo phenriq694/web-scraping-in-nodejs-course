@@ -48,11 +48,9 @@ async function scrapteJobDescriptions(listings, page) {
     listings[i].jobDescription = jobDescription;
     listings[i].compensation = compensation;
 
-    console.log(listings[i].compensation)
-
     const listingModel = new Listing(listings[i]);
     await listingModel.save();
-    
+
     await sleep(1000) // 1 second sleep
   }
 }
@@ -69,7 +67,6 @@ async function main() {
 
   const listings = await scrapeListings(page);
   const listingsWithJobDescriptions = await scrapteJobDescriptions(listings, page);
-  console.log(listings);
 }
 
 main()
