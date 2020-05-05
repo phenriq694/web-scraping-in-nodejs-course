@@ -14,8 +14,8 @@ async function main() {
       const resultTitle = $(element).children(".title");
       const title = resultTitle.text().trim();
       const jobUrl = resultTitle.children(".jobtitle").attr("href");
-
-      const scrapeResult = { title, url };
+      const datePosted = $(element).find(".date ").text();
+      const scrapeResult = { title, jobUrl, datePosted };
       scrapeResults.push(scrapeResult);
     });
 
