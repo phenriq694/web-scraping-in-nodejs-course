@@ -28,19 +28,26 @@ async function scrapeJobSummay () {
 }
 
 async function scrapeJobDescription(jobSummaries) {
-  jobSummaries.map(async job => {
-    const htmlResult = await request.get(job.url);
-    const $ = await cheerio.load(htmlResult);
+  return await Promise.all(jobSummaries.map(async job => {
+    try { 
+      const htmlResult = await request.get(job.jobUrl);
+      const $ = await cheerio.load(htmlResult);
 
-    $("#jobDescriptionText").each((index, element) => {
-      job.description = $(element).find("p").text();
-    });
-  }
+      $("#jobDescriptionText").each((index, element) => {
+        job.description = $(element).find("p").text();
+      });
+
+      return job
+    } catch (err) {
+      console.log(err);
+    }})
+  );
 }
 
 async function main() {
-  const jobSumaries = await scrapeJobSummay();
-  console.log(jobSumaries)
+  const jobSummaries = await scrapeJobSummay();
+  const jobFullData = await scrapeJobDescription(jobSummaries);
+  console.log(jobFullData);
 }
 
 main()
