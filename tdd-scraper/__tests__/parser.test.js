@@ -9,7 +9,7 @@ beforeAll(() => {
 });
 
 it("should give the correct number of categories", () => {
-  expect(categories.length.toBe(9));
+  expect(categories.length).toBe(9);
 });
 
 it("should get correct title", () => {
