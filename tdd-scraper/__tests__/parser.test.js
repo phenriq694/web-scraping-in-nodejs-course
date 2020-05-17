@@ -17,5 +17,5 @@ it("should get correct title", () => {
 });
 
 it("should get correct url", () => {
-  expect(categories[0].url).toBe("https://en.wikipedia.org/wiki/Portal:Arts");
+  expect(categories[0].url).toBe("/wiki/Portal:Arts");
 });

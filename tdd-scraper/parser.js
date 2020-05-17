@@ -5,10 +5,10 @@ exports.categories = html => {
 
   return $("#mp-topbanner > ul > li")
     .map((index, element) => {
-      const title = $(element)
-        .find("a")
-        .text();
+      const titleElement = $(element).find("a");
+      const title = titleElement.text();
+      const url = titleElement.attr("href");
 
-      return { title };
+      return { title, url };
     }).get();
 }
